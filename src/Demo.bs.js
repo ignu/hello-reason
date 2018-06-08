@@ -72,7 +72,11 @@ function valueToString(value) {
 }
 
 function renderCard(card) {
-  return valueToString(card[1]) + (" of " + suitToString(card[0]));
+  if (card) {
+    return valueToString(card[1]) + (" of " + suitToString(card[0]));
+  } else {
+    return "Joker";
+  }
 }
 
 function parseSuit(suitStr) {
@@ -115,7 +119,7 @@ function parseNumber(number) {
   }
 }
 
-function parseCard(card) {
+function parsePlainCard(card) {
   var length = card.length;
   var suit = parseSuit(card.slice(length - 1 | 0));
   var value = parseNumber(card.slice(0, length - 1 | 0));
@@ -126,6 +130,14 @@ function parseCard(card) {
             ]];
   } else {
     return /* None */0;
+  }
+}
+
+function parseCard(card) {
+  if (card === "J") {
+    return /* Some */[/* Joker */0];
+  } else {
+    return parsePlainCard(card);
   }
 }
 
@@ -154,7 +166,7 @@ printCard("8H");
 
 printCard("10H");
 
-printCard("cool");
+printCard("J");
 
 exports.suitToString = suitToString;
 exports.numToString = numToString;
@@ -162,6 +174,7 @@ exports.valueToString = valueToString;
 exports.renderCard = renderCard;
 exports.parseSuit = parseSuit;
 exports.parseNumber = parseNumber;
+exports.parsePlainCard = parsePlainCard;
 exports.parseCard = parseCard;
 exports.optionMap = optionMap;
 exports.optionWithDefault = optionWithDefault;

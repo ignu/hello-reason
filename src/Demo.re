@@ -12,7 +12,8 @@ type value =
   | Jack
   | Num(int);
 type card =
-  | Card(suit, value);
+  | Card(suit, value)
+  | Joker;
 
 let suitToString = s =>
   switch (s) {
@@ -48,6 +49,7 @@ let valueToString = value =>
 
 let renderCard = card =>
   switch (card) {
+  | Joker => "Joker"
   | Card(suit, value) =>
     valueToString(value) ++ " of " ++ suitToString(suit)
   };
@@ -73,7 +75,7 @@ let parseNumber = number => {
   };
 };
 
-let parseCard = card => {
+let parsePlainCard = card => {
   let length = Js.String.length(card);
   let suit = card |> Js.String.sliceToEnd(~from=length - 1) |> parseSuit;
   let value =
@@ -84,6 +86,11 @@ let parseCard = card => {
   | _ => None
   };
 };
+let parseCard = card =>
+  switch (card) {
+  | "J" => Some(Joker)
+  | str => parsePlainCard(str)
+  };
 
 let optionMap = (fn, opt) =>
   switch (opt) {
@@ -106,4 +113,4 @@ let printCard = card =>
 
 "8H" |> printCard;
 "10H" |> printCard;
-"cool" |> printCard;
+"J" |> printCard;

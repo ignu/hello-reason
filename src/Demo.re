@@ -91,6 +91,19 @@ let optionMap = (fn, opt) =>
   | None => None
   };
 
-"8H" |> parseCard |> optionMap(renderCard) |> Js.log;
-"10H" |> parseCard |> optionMap(renderCard) |> Js.log;
-"cool" |> parseCard |> optionMap(renderCard) |> Js.log;
+let optionWithDefault = (defaultVal, opt) =>
+  switch (opt) {
+  | Some(x) => x
+  | None => defaultVal
+  };
+
+let printCard = card =>
+  card
+  |> parseCard
+  |> optionMap(renderCard)
+  |> optionWithDefault("-- invalid card --")
+  |> Js.log;
+
+"8H" |> printCard;
+"10H" |> printCard;
+"cool" |> printCard;

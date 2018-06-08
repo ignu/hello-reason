@@ -137,11 +137,24 @@ function optionMap(fn, opt) {
   }
 }
 
-console.log(optionMap(renderCard, parseCard("8H")));
+function optionWithDefault(defaultVal, opt) {
+  if (opt) {
+    return opt[0];
+  } else {
+    return defaultVal;
+  }
+}
 
-console.log(optionMap(renderCard, parseCard("10H")));
+function printCard(card) {
+  console.log(optionWithDefault("-- invalid card --", optionMap(renderCard, parseCard(card))));
+  return /* () */0;
+}
 
-console.log(optionMap(renderCard, parseCard("cool")));
+printCard("8H");
+
+printCard("10H");
+
+printCard("cool");
 
 exports.suitToString = suitToString;
 exports.numToString = numToString;
@@ -151,4 +164,6 @@ exports.parseSuit = parseSuit;
 exports.parseNumber = parseNumber;
 exports.parseCard = parseCard;
 exports.optionMap = optionMap;
+exports.optionWithDefault = optionWithDefault;
+exports.printCard = printCard;
 /*  Not a pure module */
